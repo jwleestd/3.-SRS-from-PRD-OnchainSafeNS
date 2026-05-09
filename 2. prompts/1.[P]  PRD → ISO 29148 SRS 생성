@@ -1,0 +1,331 @@
+1) PRD → ISO 29148 SRS 생성
+
+1.1. 제미나이 Antigravity 용 
+
+당신은 ISO/IEC/IEEE 29148:2018 표준에 정통한 Senior Requirements Engineer입니다.
+당신의 임무는 내가 제공하는 PRD(Product Requirements Document)를 기반으로
+완전하고 상세하며, 테스트 가능하고, 추적 가능한 SRS(Software Requirements Specification)를 작성하는 것입니다.
+
+아래의 규칙과 출력 구조를 반드시 준수하여 작성하십시오.
+
+================================================================
+# 1. 목적
+PRD의 모든 내용을 기반으로 다음 기준을 충족하는 SRS를 생성하십시오.
+- ISO 29148 완전 준수
+- Functional / Non-Functional / Interface / Data / Constraints 분리
+- 테스트 가능(AC 포함) + 추적성(Traceability Matrix 포함)
+- Story → REQ-FUNC
+- KPI/성능 지표 → REQ-NF
+- API/Entity → Interface/Data Model
+- 핵심 + 상세 시퀀스 다이어그램 포함
+
+================================================================
+# 2. 입력
+제공된 아래의 PRD 문서를 유일한 비즈니스/기능 요구의 원천(Source of Truth)으로 사용하십시오.
+@1.PRD_v0.2.md
+@2.PRD v0.1 품질 리뷰 리포트
+
+
+================================================================
+# 3. 출력: SRS 전체 구조
+아래 구조는 절대 변경하지 말고 그대로 사용하십시오.
+
+# Software Requirements Specification (SRS)
+Document ID: SRS-<자동 번호>
+Revision: 1.0
+Date: <오늘 날짜>
+Standard: ISO/IEC/IEEE 29148:2018
+
+-------------------------------------------------
+1. Introduction
+   1.1 Purpose
+   1.2 Scope (In-Scope / Out-of-Scope)
+   1.3 Definitions, Acronyms, Abbreviations
+   1.4 References (REF-XX)
+
+2. Stakeholders
+   - 역할(Role), 책임(Responsibility), 관심사(Interest)
+
+3. System Context and Interfaces
+   3.1 External Systems
+   3.2 Client Applications
+   3.3 API Overview
+   3.4 Interaction Sequences (핵심 시퀀스 다이어그램 머메이드 차트 포함)
+
+4. Specific Requirements
+
+   4.1 Functional Requirements (테이블 필수)
+      - REQ-FUNC-xxx 형태의 ID
+      - Story는 Source로 명시
+      - AC(Given/When/Then)는 Acceptance Criteria로 변환
+      - MSCW → Priority 컬럼 반영
+      - 하나의 Story/F기능은 여러 개의 REQ-FUNC로 분해
+
+   4.2 Non-Functional Requirements (테이블 필수)
+      - 성능(p95, latency, throughput)
+      - 가용성(SLA, RPO, RTO)
+      - 보안(TLS, RBAC, 감사 로그)
+      - 비용(단위 처리 비용)
+      - 운영/모니터링 지표
+      - Scalability, Maintainability 포함
+
+5. Traceability Matrix
+   - Story ↔ Requirement ID ↔ Test Case ID
+
+6. Appendix
+   6.1 API Endpoint List
+   6.2 Entity & Data Model (표 필수)
+   6.3 Detailed Interaction Models
+       (상세 시퀀스 다이어그램, Mermaid 차트 형태로 작성)
+
+================================================================
+# 4. PRD → SRS 매핑 규칙 (필수 준수)
+
+[PRD 1. 문제 정의 및 목표 → SRS 1. Introduction (개요)]
+- PRD: 문제 정의 (Problem Definition) → SRS: 1.1 Purpose (목적)
+- PRD: Desired Outcome (Key Performance Indicator) (기대 성과) → SRS: 1.2 Scope (범위) + SRS 4.2 Non-Functional Requirement (비기능 요구사항)의 정량 기준
+- PRD: 북극성/보조 Key Performance Indicator (핵심/보조 성과 지표) → SRS 4.2 Non-Functional Requirement (비기능 요구사항)
+
+[PRD 2. 사용자 정의 → SRS 2. Overall Description (전반적 기술) + SRS 1.3 Definitions (정의)]
+- PRD: 페르소나 (Persona) → SRS: 2.x Stakeholder (이해관계자) 역할로 변환
+- PRD: Jobs to be Done (완수할 과업), AOS(Adjusted Opportunity Score), DOS(Discovered Opportunity Score), Validator (검증자) → SRS: 1.3 Definitions (용어 및 정의)
+
+[PRD 3. 사용자 스토리 → SRS 4.1 Functional Requirements (기능 요구사항)]
+- PRD: 사용자 스토리 (User Story) = SRS: 요구사항의 출처 (Source)
+- PRD: Acceptance Criteria (인수 기준) = SRS: Acceptance Criteria (인수 기준)
+
+[PRD 4. 기능 명세 → SRS 4.1 Functional Requirements (기능 요구사항)]
+- PRD: F1~F6 기능 (Features) = SRS: 다수의 Functional Requirement (기능 요구사항, REQ-FUNC)로 분해
+- PRD: MoSCoW (Must, Should, Could, Won't) 우선순위 = SRS: Priority (우선순위) 컬럼 적용
+
+[PRD 5. 품질/성능 기준 → SRS 4.2 Non-Functional Requirements (비기능 요구사항)]
+- PRD: 모든 수치 기준 (e.g., p95 응답 시간, 오류율, 성공률 등) → SRS: 4.2 Non-Functional Requirement (비기능 요구사항)로 이동
+
+[PRD 6. 데이터 및 기술 명세 → SRS 3. System Architecture (시스템 아키텍처) + Appendix (부록)]
+- PRD: Application Programming Interface (API) → SRS: 3.x System Context (시스템 컨텍스트) & API Overview (API 개요)
+- PRD: 엔터티/필드 (Entity/Field) → Appendix: Data Model (데이터 모델 - 테이블 정의)
+
+[PRD 7. 범위 및 제약사항 → SRS 1.2 Scope (범위) + 1.x Constraints (제약사항)]
+- PRD: In-Scope / Out-of-Scope (범위 내/외) → SRS: 1.2 Scope (범위)에 명시적으로 작성
+- PRD: Architectural Decision Record (아키텍처 결정 기록)·리스크·가정 → SRS: 1.x Constraints (제약사항) / Assumptions (가정)
+
+[PRD 8. 검증 계획 → Appendix (부록) + SRS 4.2 Non-Functional Requirements (비기능 요구사항)]
+- PRD: 실험 방식 → Appendix: Validation Plan (검증 계획) 수준으로 작성
+- PRD: 성공 기준 → SRS: 4.2 Non-Functional Requirement (비기능 요구사항)에 반영
+
+[PRD 9. 참고 자료 → References (참조)]
+- PRD: Proof 문서 (근거 자료) → References (참조): REF-01, REF-02 등으로 매핑
+
+================================================================
+# 5. SRS 생성 시 반드시 지켜야 하는 10가지 필수 규칙
+(요청된 기준 전체 반영)
+
+1) Story는 Functional Requirement의 Source로 반드시 연결한다.
+2) F1~F6 주요 기능은 반드시 여러 개의 REQ-FUNC로 분해한다.
+3) p95, SLA, 단위 처리 비용 등 모든 성능 수치는 NFR로 이동한다.
+4) 모든 API는 System Context와 Appendix 모두에 기재한다.
+5) 모든 엔터티/데이터 모델은 반드시 표로 구조화한다.
+6) 시퀀스 다이어그램은 SRS 3.4와 Appendix 6.3 두 곳에 포함한다.
+7) In/Out Scope는 SRS 1.2에 반드시 명시한다.
+8) ADR·리스크·가정은 Constraints/Assumptions로 통합한다.
+9) References는 반드시 REF-XX 형식 ID로 연결한다.
+10) 모든 요구사항은 ID(REQ-FUNC-xxx / REQ-NF-xxx)를 가진 atomic requirement로 작성한다.
+
+================================================================
+# 6. 작성 스타일 규칙
+- 반드시 공식 문서 스타일(정확·간결·중복 금지)
+- 테스트 가능하고 측정 가능한 요구사항만 작성
+- “빠르게, 적절히, 원활히” 등의 모호한 표현 금지
+- 표 사용을 적극 권장
+- 순차적 시스템 동작을 명시해야 하는 경우, Mermaid 시퀀스 다이어그램 적극 활용
+
+================================================================
+# 7. 작업 지시
+지금부터 위 모든 기준을 준수하여 완전한 SRS 문서 전체를 작성하십시오.
+
+출력은 반드시 다음으로 시작하십시오:
+
+“# Software Requirements Specification (SRS)
+Document ID: SRS-001
+Revision: 1.0
+Date: <오늘 날짜>
+Standard: ISO/IEC/IEEE 29148:2018”
+
+================================================================
+# 8. 작업 결과물 출력
+작업 결과는 "3.SRS-Drafts" 경로 아래에 마크다운 형태로  "SRS_v0_1.Gemini.md"로 저장하십시오.
+
+
+ 기존 참조 데이터를 기본으로 하여 "SRS_v0_1.Gemini.md"문서를 재작성해줘
+  
+ 외부참조 문서의 포맷에 맞추어 재작성해줘.
+
+ 기존 참조 문서:
+
+  @SRS_v0_1.Gemini.md
+
+
+ 외부 참조 문서:
+
+
+
+1-1 Claud Opus 4.6. Prompts
+
+
+당신은 ISO/IEC/IEEE 29148:2018 표준에 정통한 Senior Requirements Engineer입니다.
+당신의 임무는 내가 제공하는 PRD(Product Requirements Document)를 기반으로
+완전하고 상세하며, 테스트 가능하고, 추적 가능한 SRS(Software Requirements Specification)를 작성하는 것입니다.
+
+아래의 규칙과 출력 구조를 반드시 준수하여 작성하십시오.
+
+================================================================
+# 1. 목적
+PRD의 모든 내용을 기반으로 다음 기준을 충족하는 SRS를 생성하십시오.
+- ISO 29148 완전 준수
+- Functional / Non-Functional / Interface / Data / Constraints 분리
+- 테스트 가능(AC 포함) + 추적성(Traceability Matrix 포함)
+- Story → REQ-FUNC
+- KPI/성능 지표 → REQ-NF
+- API/Entity → Interface/Data Model
+- 핵심 + 상세 시퀀스 다이어그램 포함
+
+================================================================
+# 2. 입력
+제공된 아래의 참고 PRD 문서를 유일한 비즈니스/기능 요구의 원천(Source of Truth)으로 사용하십시오.
+1.PRD_v0.1.md
+2.PRD v0.1 품질 리뷰 리포트
+
+
+================================================================
+# 3. 출력: SRS 전체 구조
+아래 구조는 절대 변경하지 말고 그대로 사용하십시오.
+
+# Software Requirements Specification (SRS)
+Document ID: SRS-<자동 번호>
+Revision: 1.0
+Date: <오늘 날짜>
+Standard: ISO/IEC/IEEE 29148:2018
+
+-------------------------------------------------
+1. Introduction
+   1.1 Purpose
+   1.2 Scope (In-Scope / Out-of-Scope)
+   1.3 Definitions, Acronyms, Abbreviations
+   1.4 References (REF-XX)
+
+2. Stakeholders
+   - 역할(Role), 책임(Responsibility), 관심사(Interest)
+
+3. System Context and Interfaces
+   3.1 External Systems
+   3.2 Client Applications
+   3.3 API Overview
+   3.4 Interaction Sequences (핵심 시퀀스 다이어그램 머메이드 차트 포함)
+
+4. Specific Requirements
+
+   4.1 Functional Requirements (테이블 필수)
+      - REQ-FUNC-xxx 형태의 ID
+      - Story는 Source로 명시
+      - AC(Given/When/Then)는 Acceptance Criteria로 변환
+      - MSCW → Priority 컬럼 반영
+      - 하나의 Story/F기능은 여러 개의 REQ-FUNC로 분해
+
+   4.2 Non-Functional Requirements (테이블 필수)
+      - 성능(p95, latency, throughput)
+      - 가용성(SLA, RPO, RTO)
+      - 보안(TLS, RBAC, 감사 로그)
+      - 비용(단위 처리 비용)
+      - 운영/모니터링 지표
+      - Scalability, Maintainability 포함
+
+5. Traceability Matrix
+   - Story ↔ Requirement ID ↔ Test Case ID
+
+6. Appendix
+   6.1 API Endpoint List
+   6.2 Entity & Data Model (표 필수)
+   6.3 Detailed Interaction Models
+       (상세 시퀀스 다이어그램, Mermaid 차트 형태로 작성)
+
+================================================================
+# 4. PRD → SRS 매핑 규칙 (필수 준수)
+
+[PRD 1. 문제 정의 및 목표 → SRS 1. Introduction (개요)]
+- PRD: 문제 정의 (Problem Definition) → SRS: 1.1 Purpose (목적)
+- PRD: Desired Outcome (Key Performance Indicator) (기대 성과) → SRS: 1.2 Scope (범위) + SRS 4.2 Non-Functional Requirement (비기능 요구사항)의 정량 기준
+- PRD: 북극성/보조 Key Performance Indicator (핵심/보조 성과 지표) → SRS 4.2 Non-Functional Requirement (비기능 요구사항)
+
+[PRD 2. 사용자 정의 → SRS 2. Overall Description (전반적 기술) + SRS 1.3 Definitions (정의)]
+- PRD: 페르소나 (Persona) → SRS: 2.x Stakeholder (이해관계자) 역할로 변환
+- PRD: Jobs to be Done (완수할 과업), AOS(Adjusted Opportunity Score), DOS(Discovered Opportunity Score), Validator (검증자) → SRS: 1.3 Definitions (용어 및 정의)
+
+[PRD 3. 사용자 스토리 → SRS 4.1 Functional Requirements (기능 요구사항)]
+- PRD: 사용자 스토리 (User Story) = SRS: 요구사항의 출처 (Source)
+- PRD: Acceptance Criteria (인수 기준) = SRS: Acceptance Criteria (인수 기준)
+
+[PRD 4. 기능 명세 → SRS 4.1 Functional Requirements (기능 요구사항)]
+- PRD: F1~F6 기능 (Features) = SRS: 다수의 Functional Requirement (기능 요구사항, REQ-FUNC)로 분해
+- PRD: MoSCoW (Must, Should, Could, Won't) 우선순위 = SRS: Priority (우선순위) 컬럼 적용
+
+[PRD 5. 품질/성능 기준 → SRS 4.2 Non-Functional Requirements (비기능 요구사항)]
+- PRD: 모든 수치 기준 (e.g., p95 응답 시간, 오류율, 성공률 등) → SRS: 4.2 Non-Functional Requirement (비기능 요구사항)로 이동
+
+[PRD 6. 데이터 및 기술 명세 → SRS 3. System Architecture (시스템 아키텍처) + Appendix (부록)]
+- PRD: Application Programming Interface (API) → SRS: 3.x System Context (시스템 컨텍스트) & API Overview (API 개요)
+- PRD: 엔터티/필드 (Entity/Field) → Appendix: Data Model (데이터 모델 - 테이블 정의)
+
+[PRD 7. 범위 및 제약사항 → SRS 1.2 Scope (범위) + 1.x Constraints (제약사항)]
+- PRD: In-Scope / Out-of-Scope (범위 내/외) → SRS: 1.2 Scope (범위)에 명시적으로 작성
+- PRD: Architectural Decision Record (아키텍처 결정 기록)·리스크·가정 → SRS: 1.x Constraints (제약사항) / Assumptions (가정)
+
+[PRD 8. 검증 계획 → Appendix (부록) + SRS 4.2 Non-Functional Requirements (비기능 요구사항)]
+- PRD: 실험 방식 → Appendix: Validation Plan (검증 계획) 수준으로 작성
+- PRD: 성공 기준 → SRS: 4.2 Non-Functional Requirement (비기능 요구사항)에 반영
+
+[PRD 9. 참고 자료 → References (참조)]
+- PRD: Proof 문서 (근거 자료) → References (참조): REF-01, REF-02 등으로 매핑
+
+================================================================
+# 5. SRS 생성 시 반드시 지켜야 하는 10가지 필수 규칙
+(요청된 기준 전체 반영)
+
+1) Story는 Functional Requirement의 Source로 반드시 연결한다.
+2) F1~F6 주요 기능은 반드시 여러 개의 REQ-FUNC로 분해한다.
+3) p95, SLA, 단위 처리 비용 등 모든 성능 수치는 NFR로 이동한다.
+4) 모든 API는 System Context와 Appendix 모두에 기재한다.
+5) 모든 엔터티/데이터 모델은 반드시 표로 구조화한다.
+6) 시퀀스 다이어그램은 SRS 3.4와 Appendix 6.3 두 곳에 포함한다.
+7) In/Out Scope는 SRS 1.2에 반드시 명시한다.
+8) ADR·리스크·가정은 Constraints/Assumptions로 통합한다.
+9) References는 반드시 REF-XX 형식 ID로 연결한다.
+10) 모든 요구사항은 ID(REQ-FUNC-xxx / REQ-NF-xxx)를 가진 atomic requirement로 작성한다.
+
+================================================================
+# 6. 작성 스타일 규칙
+- 반드시 공식 문서 스타일(정확·간결·중복 금지)
+- 테스트 가능하고 측정 가능한 요구사항만 작성
+- “빠르게, 적절히, 원활히” 등의 모호한 표현 금지
+- 표 사용을 적극 권장
+- 순차적 시스템 동작을 명시해야 하는 경우, Mermaid 시퀀스 다이어그램 적극 활용
+
+================================================================
+# 7. 작업 지시
+지금부터 위 모든 기준을 준수하여 완전한 SRS 문서 전체를 작성하십시오.
+
+출력은 반드시 다음으로 시작하십시오:
+
+“# Software Requirements Specification (SRS)
+Document ID: SRS-001
+Revision: 1.0
+Date: <오늘 날짜>
+Standard: ISO/IEC/IEEE 29148:2018”
+
+================================================================
+
+# 8. 작업 결과물 출력
+
+작업 결과는 "3.SRS-Drafts" 경로 아래에 마크다운 형태 "SRS_v0_1.Opus46.md" 저장하십시오.
+
+
+
