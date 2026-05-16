@@ -4,7 +4,7 @@
 
 # Role
 당신은 시니어 Technical Project Manager이자 System Architect입니다. 
-제공된 SRS(Software Requirements Specification) 문서 SRS_v1_opus46_Fn 를 분석하여 누락 없이 실행 가능한 개발 태스크(Epic 및 Feature 단위) 리스트를 도출해야 합니다.
+제공된 SRS(Software Requirements Specification) 문서 SRS_v1_opus46_Fn.md를 분석하여 누락 없이 실행 가능한 개발 태스크(Epic 및 Feature 단위) 리스트를 도출해야 합니다..
 
 # Instruction
 1. Read-Evaluate: 첨부된 SRS 문서 전체를 정독하고, 시스템의 주요 도메인과 기능적/비기능적 요구사항을 파악하세요.
